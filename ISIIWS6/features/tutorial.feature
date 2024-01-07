@@ -1,5 +1,4 @@
-Feature: showing off behave
-
+Feature: Add a task to the to-do list
   Scenario: Adding a task
     Given the To-Do list is empty
         When the user adds a task "Buy groceries"
@@ -7,26 +6,28 @@ Feature: showing off behave
 
   Scenario: List all the task
     Given the To-Do list contains:
+    | task              |
     | Buy Groceries     |
     | Make the dishes   |
     | Wash the clothes  |
         When the user list all tasks by name
             Then the output should contain
+            | task              |
             | Buy Groceries     |
             | Make the dishes   |
             | Wash the clothes  |
 
-  Scenario: Clear the entire to-do list
-    Given : Given the to-do list contains tasks:
-    | Buy Groceries     |
-    | Make the dishes   |
-    | Wash the clothes  |
-      When : When the user clears the to-do list
-        Then : the to-do list should be empty
+  Scenario: Mark a task as completed
+    Given the to-do list contains tasks:
+      | Task          | Status  |
+      | Buy groceries | Pending |
+    When the user marks task "Buy groceries" as completed
+    Then the to-do list should show task "Buy groceries" as completed
 
-  Scenario : Mark a task as completed
-    Given : Given the to-do list contains tasks:
-    | TASK              |  STATUS
-    | Buy Groceries     |  PENDING
-    | Make the dishes   |  PENDING
-    | Wash the clothes  |  PENDING
+  Scenario: Clear the entire to-do list
+    Given the to-do list contains tasks:
+      | Task          |
+      | Buy groceries |
+      | Pay bills     |
+    When the user clears the to-do list
+    Then the to-do list should be empty
